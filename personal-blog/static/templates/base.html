@@ -1,0 +1,44 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Personal Blog</title>
+        <link rel="stylesheet" href="/static/styles/style.css">
+        <script src="https://unpkg.com/htmx.org@2.0.5"></script>
+    </head>
+
+    <header>
+        <h1>My Personal Blog</h1>
+        <nav>
+            <button
+                class="mode-btn {{ if eq .ActiveMode "guest" }}active{{ end }}"
+                hx-get="/articles"
+                hx-target="#content"
+                hx-on:click="setActive(this)"
+            >Guest</button>
+            <button
+                class="mode-btn {{ if eq .ActiveMode "admin" }}active{{ end }}"
+                hx-get="/articles"
+                hx-target="#content"
+                hx-on:click="setActive(this)"
+            >Admin</button> <!--ЗАГЛУШКА. Переработать-->
+        </nav>
+    </header>
+
+    <body>
+        <div id="content" class="content">
+            {{ template "content" . }}
+        </div>
+
+        <script>
+            function setActive(el) {
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('active')
+                })
+                el.classList.add('active')
+            }
+        </script>
+    </body>
+</html>
+{{ end }}
